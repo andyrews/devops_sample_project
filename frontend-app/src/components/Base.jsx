@@ -5,12 +5,11 @@ function Base(props) {
 
   return (
     <> 
-      <div className="w-full min-h-screen flex flex-col">
+      <div className="w-full h-screen min-h-screen flex flex-col">
         <Header />
         <Outlet />
-        {<div className="flex grow flex-col">
-          {props.children}
-        </div>}
+        {props.children}
+   
       </div>
 
           
