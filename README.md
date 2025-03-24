@@ -1,7 +1,10 @@
 # devops_sample_project
-DevOps Practice with:
-- Database
+## DevOps Practice with:
+- Postgre
 - Redis Cache
 - API Gateway
-- Logging
 - Github Actions (Jenkins Later)
+- Clerk Auth
+
+## Architecture
+ ![Architecture](assets/Architecture.drawio.png) 
