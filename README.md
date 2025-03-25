@@ -8,3 +8,21 @@
 
 ## Architecture
  ![Architecture](assets/Architecture.drawio.png) 
+
+## Initial Usage
+### Frontend
+```sh
+npm i
+npm run dev
+```
+
+### Backend
+```sh
+make install (per microservice)
+python server.py (per microservice)
+```
+
+### Redis
+```sh
+redis-server --port 6379
+```
