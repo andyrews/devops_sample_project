@@ -12,17 +12,16 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import Tite from './components/tite.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY} afterSignOutUrl="/">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Base />}>
             <Route index element={<Landing />} />
-            <Route path="/count" element={<AuthenticatedRoute><Count /></AuthenticatedRoute>} />
+            <Route path="count" element={<Count />} />
+            {/*<Route path="/count" element={<AuthenticatedRoute><Count /></AuthenticatedRoute>} />/*/}
             <Route path="tite" element={<Tite />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </ClerkProvider>
-  </StrictMode>,
 )
