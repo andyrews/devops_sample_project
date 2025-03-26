@@ -27,12 +27,26 @@ r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 @app.post("/clicks")
 async def register_click(request: Request):
     data = await request.json()
-    r.zincrby(LEADERBOARD, 1, data["uid"])
+    user_click = get_user_click(data["uid"])
+    if user_click["click"] == 0:
+        r.zadd(LEADERBOARD, {data["uid"]: data["click"]})
+    else:
+        r.zincrby(LEADERBOARD, 1, data["uid"])     
+    
+   
     return {"status": "ok"}
 
 @app.get("/clicks/{uid}")
 async def get_clicks_by_uid(uid: str):
-    return {"click": int(r.zscore(LEADERBOARD, str(uid)))}
+    return get_user_click(uid)
+
+def get_user_click(uid):
+    score = r.zscore(LEADERBOARD, str(uid))
+    if score is None:
+        return {"click": 0}
+    return {"click": int(score)}
+
+
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("realtime-server:app", host="0.0.0.0", port=8000, reload=True)
