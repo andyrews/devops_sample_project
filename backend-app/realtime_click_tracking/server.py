@@ -19,25 +19,20 @@ app.add_middleware(
     )
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
+#Global Variables
+LEADERBOARD = "leaderboard"
+
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
 @app.post("/clicks")
 async def register_click(request: Request):
     data = await request.json()
-
-    r.incrby(data["uid"], 1)
+    r.zincrby(LEADERBOARD, 1, data["uid"])
     return {"status": "ok"}
-
-@app.get("/clicks")
-async def get_clicks():
-    click = r.keys("*")
-    #format: [{"uid": "uid1", "click": 10}, {"uid": "uid2", "click": 5}]
-    data = [{"uid": key, "click": int(r.get(key))} for key in click]
-    return sorted(data, key=lambda x: x["click"], reverse=True)
 
 @app.get("/clicks/{uid}")
 async def get_clicks_by_uid(uid: str):
-    return {"click": int(r.get(uid))}
+    return {"click": int(r.zscore(LEADERBOARD, str(uid)))}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
