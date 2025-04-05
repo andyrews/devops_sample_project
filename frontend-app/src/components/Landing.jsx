@@ -6,7 +6,7 @@ function Landing() {
   useEffect(() => {
     const fetchUserboard = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/clicks`);
+        const response = await axios.get(`http://localhost:8001/leaderboard`);
         console.log(response.data)
         setUserboard(response.data);
       } catch (error) {
